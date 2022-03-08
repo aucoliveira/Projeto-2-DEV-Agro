@@ -1,6 +1,7 @@
 package com.DEVAgro.controllers;
 
 import com.DEVAgro.models.Empresa;
+import com.DEVAgro.models.Fazenda;
 import com.DEVAgro.services.EmpresaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,14 @@ public class EmpresaController {
         return ResponseEntity.status(HttpStatus.OK).body(empresa);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> atualizar(@RequestBody Empresa empresa, @PathVariable("id") Long id) {
+        empresa.setId(id);
+
+        empresaService.atulizar(empresa);
+        return ResponseEntity.noContent().build();
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deletar(@PathVariable("id") Long id) {
         empresaService.deletar(id);
@@ -56,4 +65,12 @@ public class EmpresaController {
     //Um endpoint que retorna a lista de fazendas de uma empresa.
     //@RequestMapping(value = "/{id}/")
 
+    @RequestMapping(value = "/{id}/adicionarFazenda", method = RequestMethod.POST)
+    public ResponseEntity<Void> adicionarFazenda(@Valid @PathVariable("id") Long empresaId,
+                                                 @RequestBody Fazenda fazenda) {
+        empresaService.adicionarFazenda(empresaId, fazenda);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+
+        return ResponseEntity.created(uri).build();
+    }
 }

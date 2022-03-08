@@ -1,6 +1,7 @@
 package com.DEVAgro.services;
 
 import com.DEVAgro.models.Empresa;
+import com.DEVAgro.models.Fazenda;
 import com.DEVAgro.repositories.EmpresaRepository;
 import com.DEVAgro.repositories.FazendaRepository;
 import com.DEVAgro.repositories.FuncionarioRepository;
@@ -93,10 +94,16 @@ public class EmpresaService {
         if (empresa == null) {
             throw new EmpresaNaoEncontradaException("Empresa não encontrada");
         }
-        return empresa.;
+        return empresa;
 
     }
 
+    // Adicionando uma fazenda
+    public Fazenda adicionarFazenda(Long empresaId, Fazenda fazenda) {
+        Empresa empresa = buscar(empresaId);
+        fazenda.setEmpresa(empresa);
 
+        return fazendaRepository.save(fazenda);
+    }
 
 }

@@ -30,6 +30,8 @@ public class Grao {
 
     @NotBlank(message = "Campo obrigatório.")
     @OneToOne
+    @JsonIgnore
+    @JoinColumn(name = "FAZENDA_ID")
     private Fazenda fazenda;
 
 
