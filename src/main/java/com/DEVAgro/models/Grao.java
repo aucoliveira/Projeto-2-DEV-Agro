@@ -1,11 +1,13 @@
 package com.DEVAgro.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Setter
@@ -20,18 +22,20 @@ public class Grao {
     @NotBlank(message = " Campo obrigatório.")
     private String nome;
 
-    @NotBlank(message = "Campo obrigatório.")
+    //@NotBlank(message = "Campo obrigatório.")
+    //@NotEmpty
     private int tempoMedioDeColheita; // esse recampo tem que ser em dias
 
-    @ManyToOne(fetch = FetchType.LAZY) // vários graos para uma empresa
+
+    @ManyToOne
     @JoinColumn(name = "EMPRESA_ID")
-    @JsonIgnore
+    @JsonInclude
     private Empresa empresa;
 
-    @NotBlank(message = "Campo obrigatório.")
+    //@NotBlank(message = "Campo obrigatório.")
     @OneToOne
     @JsonIgnore
-    @JoinColumn(name = "FAZENDA_ID")
+    //@JoinColumn(name = "FAZENDA_ID")
     private Fazenda fazenda;
 
 

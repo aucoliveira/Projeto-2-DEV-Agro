@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
 
-    @Query("select e from Empresa e where e.fazenda = ?1")
-    List<Empresa> findByFazenda(String nome);
+
 }

@@ -66,13 +66,10 @@ public class EmpresaService {
     // Fim do CRUD
 
     // Um endpoint que retorna a lista de fazendas de uma empresa.
-    public Empresa ListaFazendasEmpresa(Long id) {
-        Empresa empresa = empresaRepository.findById(id).orElse(null);
-        if (empresa == null) {
-            throw new EmpresaNaoEncontradaException("Empresa não encontrada");
-        }
-        return empresa;
+    public List<Fazenda> listarFazenda(Long empresaId) {
+        Empresa empresa = buscar(empresaId);
 
+        return empresa.getFazenda();
     }
 
     // Um endpoint que retorna a quantidade de fazendas de uma empresa.
@@ -89,14 +86,7 @@ public class EmpresaService {
         deve ter 3 atributos: ID da fazenda, nome da fazenda e a data prevista da próxima colheita
         (considerando a data da última colheita e o tempo médio de colheita do grão associado a essa fazenda).
     */
-    public Empresa ListaFazendasEmpresaInformacoes(Long id) {
-        Empresa empresa = empresaRepository.findById(id).orElse(null);
-        if (empresa == null) {
-            throw new EmpresaNaoEncontradaException("Empresa não encontrada");
-        }
-        return empresa;
 
-    }
 
     // Adicionando uma fazenda
     public Fazenda adicionarFazenda(Long empresaId, Fazenda fazenda) {
@@ -105,5 +95,7 @@ public class EmpresaService {
 
         return fazendaRepository.save(fazenda);
     }
+
+
 
 }

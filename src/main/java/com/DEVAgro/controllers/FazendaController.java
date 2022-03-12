@@ -2,6 +2,7 @@ package com.DEVAgro.controllers;
 
 import com.DEVAgro.models.Fazenda;
 import com.DEVAgro.services.FazendaService;
+import com.DEVAgro.services.dto.FazendaDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -29,8 +31,8 @@ public class FazendaController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> salvar(@Valid @RequestBody Fazenda fazenda) {
-        fazenda  = fazendaService.salvar(fazenda);
+    public ResponseEntity<Void> salvar(@Valid @RequestBody FazendaDto fazendaDto) throws ParseException {
+       Fazenda fazenda  = fazendaService.salvar(fazendaDto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(fazenda.getId()).toUri();
@@ -43,7 +45,7 @@ public class FazendaController {
         return ResponseEntity.status(HttpStatus.OK).body(fazendaService.buscar(id));
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> atualizar(@RequestBody Fazenda fazenda, @PathVariable("id") Long id) {
         fazenda.setId(id);
         fazendaService.atualizar(fazenda);
@@ -55,6 +57,13 @@ public class FazendaController {
         fazendaService.deletar(id);
         return ResponseEntity.noContent().build();
     }
+    //Um endpoint para registrar colheita em uma fazenda, que aumenta o estoque de grãos daquela fazenda.
+    @RequestMapping(value = "/{id}/atualizaEstoque", method = RequestMethod.PUT)
+    public ResponseEntity<Void> atualizaEstoque(@RequestBody Fazenda fazenda,
+                                                @PathVariable("id") Long id) {
+        fazenda.setId(id);
+        fazendaService.atualizaEstoque(fazenda.getEstoque());
+        return ResponseEntity.noContent().build();
 
-
+    }
 }

@@ -4,6 +4,8 @@ import com.DEVAgro.models.Empresa;
 import com.DEVAgro.models.Fazenda;
 import com.DEVAgro.services.EmpresaService;
 
+import com.DEVAgro.services.FazendaService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/empresas")
@@ -25,6 +28,9 @@ public class EmpresaController {
     // endpoint do CRUD
     @Autowired
     private EmpresaService empresaService;
+
+    @Autowired
+    private FazendaService fazendaService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Empresa>> listar() {
@@ -63,7 +69,20 @@ public class EmpresaController {
      // fim dos endpoint do CRUD
 
     //Um endpoint que retorna a lista de fazendas de uma empresa.
-    //@RequestMapping(value = "/{id}/")
+    @RequestMapping(value = "/{id}/listaFazenda", method = RequestMethod.GET)
+    public ResponseEntity<List<Fazenda>> listarFazendaEmpresa(@Valid @PathVariable("id")
+                                                                          Long empresaId) {
+        List<Fazenda> fazenda = empresaService.listarFazenda(empresaId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(fazenda);
+    }
+
+    //Um endpoint que retorna a quantidade de fazendas de uma empresa
+    @RequestMapping(value = "/{id}/qtdefazenda", method = RequestMethod.GET)
+    public ResponseEntity<?> quantidadeFazenda(@Valid @PathVariable("id") Long id) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(empresaService.qtdeFazendasEmpresa(id));
+    }
 
     @RequestMapping(value = "/{id}/adicionarFazenda", method = RequestMethod.POST)
     public ResponseEntity<Void> adicionarFazenda(@Valid @PathVariable("id") Long empresaId,

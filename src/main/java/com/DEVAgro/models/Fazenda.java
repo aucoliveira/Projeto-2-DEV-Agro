@@ -1,21 +1,15 @@
 package com.DEVAgro.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
-import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import static javax.persistence.FetchType.LAZY;
 
 @Setter
 @Getter
@@ -33,16 +27,15 @@ public class Fazenda {
     private String endereco;
 
     //@NotBlank(message = "A quantidade de estoque é obrigatória.")
-    private int quantidadeEstoque;
+    private Double quantidadeEstoque = Double.valueOf(0);
 
     //@NotBlank(message = "O tipo de grão é obrigatório.")
-    @OneToOne(mappedBy ="fazenda") // Relação de uma fazenda para grao.
-                                // obs: Verificar na aula tira dúvida se não é OneToOne
+    @OneToOne
     @JsonInclude
     private Grao grao;
 
     //@NotBlank(message = "Esse campo é obrigatório.")
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "EMPRESA_ID")
     @JsonInclude
     private Empresa empresa;
@@ -51,10 +44,23 @@ public class Fazenda {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date ultimaColheita;
 
+    private Date proximaColheita ;
 
-    public Calendar proximaColheita(){
+    public void setProximaColheita(Date proximaColheita) {
+
+        this.proximaColheita = proximaColheitaCalcula(grao).getTime();
+    }
+
+    private Double estoque;
+    public void setQuantidadeEstoque(Double estoque){
+
+        this.quantidadeEstoque += estoque;
+    }
+
+    public Calendar proximaColheitaCalcula(Grao grao){
         Calendar proximaColheita = new GregorianCalendar();
         proximaColheita.setTime(ultimaColheita);
+        System.out.println(grao.getTempoMedioDeColheita());
         proximaColheita.add(Calendar.DAY_OF_MONTH,grao.getTempoMedioDeColheita());
         return proximaColheita;
     }

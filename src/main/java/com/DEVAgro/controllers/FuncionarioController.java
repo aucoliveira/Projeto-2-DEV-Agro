@@ -58,4 +58,6 @@ public class FuncionarioController {
         funcionarioService.atualizar(funcionario);
         return ResponseEntity.noContent().build();
     }
+
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.UnexpectedTypeException;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -66,5 +67,30 @@ public class ControllerExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<DetalhesErro> NullPointerException(NullPointerException e,
+                                                             HttpServletRequest request) {
+        DetalhesErro erro = new DetalhesErro();
+        erro.setStatus(400l);
+        erro.setTitulo("Requisição invalida.");
+        erro.setMensagemDesenvolvedor("http://erros.dev-agro.com/400");
+        erro.setTimestamp(System.currentTimeMillis());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+    }
+
+//    @ExceptionHandler(UnexpectedTypeException.class)
+//    public ResponseEntity<DetalhesErro> UnexpectedTypeException(UnexpectedTypeException e,
+//                                                                HttpServletRequest request) {
+//
+//        DetalhesErro erro = new DetalhesErro();
+//        erro.setStatus(400l);
+//        erro.setTitulo("Requisição invalida.");
+//        erro.setMensagemDesenvolvedor("http://erros.dev-agro.com/400");
+//        erro.setTimestamp(System.currentTimeMillis());
+//
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+//    }
 
 }

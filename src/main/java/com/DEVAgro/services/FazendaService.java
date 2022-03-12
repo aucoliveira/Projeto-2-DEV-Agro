@@ -2,11 +2,13 @@ package com.DEVAgro.services;
 
 import com.DEVAgro.models.Fazenda;
 import com.DEVAgro.repositories.FazendaRepository;
+import com.DEVAgro.services.dto.FazendaDto;
 import com.DEVAgro.services.exceptions.FazendaNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Service
@@ -19,15 +21,15 @@ public class FazendaService {
         return fazendaRepository.findAll();
     }
 
-    public Fazenda salvar(Fazenda fazenda) {
-        if (fazenda.getId() != null) {
-            Fazenda f = fazendaRepository.getById(fazenda.getId());
-
-            if(f != null) {
-                throw new FazendaNaoEncontradaException("Fazenda não encontrada.");
-            }
-        }
-        return fazendaRepository.save(fazenda);
+    public Fazenda salvar(FazendaDto fazendaDto) throws ParseException {
+//        if (fazenda.getId() != null) {
+//            Fazenda f = fazendaRepository.getById(fazenda.getId());
+//
+//            if(f != null) {
+//                throw new FazendaNaoEncontradaException("Fazenda não encontrada.");
+//            }
+//        }
+        return fazendaRepository.save(fazendaDto.converter());
     }
 
     public Fazenda buscar(Long id) {
@@ -50,6 +52,13 @@ public class FazendaService {
         } catch (EmptyResultDataAccessException e) {
             throw new FazendaNaoEncontradaException("Fazenda não encontrada");
         }
+    }
+
+    public void atualizaEstoque(Fazenda fazenda,Double estoque) {
+        verificaExistencia(fazenda);
+
+        fazenda.setQuantidadeEstoque(estoque);
+
     }
 
     public void verificaExistencia(Fazenda fazenda) {
