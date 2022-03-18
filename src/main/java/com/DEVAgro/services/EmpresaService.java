@@ -2,6 +2,8 @@ package com.DEVAgro.services;
 
 import com.DEVAgro.models.Empresa;
 import com.DEVAgro.models.Fazenda;
+import com.DEVAgro.models.Funcionario;
+import com.DEVAgro.models.Grao;
 import com.DEVAgro.repositories.EmpresaRepository;
 import com.DEVAgro.repositories.FazendaRepository;
 import com.DEVAgro.repositories.FuncionarioRepository;
@@ -54,7 +56,7 @@ public class EmpresaService {
         }
     }
 
-    public void atulizar(Empresa empresa) {
+    public void atualizar(Empresa empresa) {
         verificaExistencia(empresa);
         empresaRepository.save(empresa);
     }
@@ -86,7 +88,9 @@ public class EmpresaService {
         deve ter 3 atributos: ID da fazenda, nome da fazenda e a data prevista da próxima colheita
         (considerando a data da última colheita e o tempo médio de colheita do grão associado a essa fazenda).
     */
-
+    public List<Fazenda> mostra(){
+        return fazendaRepository.findByFazenda();
+    }
 
     // Adicionando uma fazenda
     public Fazenda adicionarFazenda(Long empresaId, Fazenda fazenda) {
@@ -96,6 +100,25 @@ public class EmpresaService {
         return fazendaRepository.save(fazenda);
     }
 
+    public List<Grao> listarGrao(Long empresaId) {
+            Empresa empresa = buscar(empresaId);
 
+            return empresa.getGrao();
+    }
 
+    public List<Funcionario> listarFuncionario(Long empresaId) {
+        Empresa empresa = buscar(empresaId);
+
+        return empresa.getFuncionario();
+    }
+
+    public Integer qtdeFuncionarioEmpresa(Long id) {
+        Empresa empresa = empresaRepository.findById(id).orElse(null);
+        if (empresa == null) {
+            throw new EmpresaNaoEncontradaException("Empresa não encontrada");
+        }
+        return empresa.getFuncionario().size();
+
+    }
 }
+

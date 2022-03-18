@@ -2,26 +2,33 @@ package com.DEVAgro.controllers;
 
 import com.DEVAgro.models.Empresa;
 import com.DEVAgro.models.Fazenda;
+import com.DEVAgro.models.Funcionario;
+import com.DEVAgro.models.Grao;
+import com.DEVAgro.repositories.FazendaRepository;
+import com.DEVAgro.repositories.GraoRepository;
 import com.DEVAgro.services.EmpresaService;
 
 import com.DEVAgro.services.FazendaService;
+import com.DEVAgro.services.GraoService;
+import com.DEVAgro.services.dto.EmpresaDto;
+import com.DEVAgro.services.dto.FazendaDto;
+import com.DEVAgro.services.dto.FazendaSummaryDto;
+import com.DEVAgro.services.dto.GraoSummaryDto;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Controller
+@RestController
 @RequestMapping("/empresas")
 public class EmpresaController {
 
@@ -31,6 +38,15 @@ public class EmpresaController {
 
     @Autowired
     private FazendaService fazendaService;
+
+    @Autowired
+    private GraoService graoService;
+
+    @Autowired
+    private FazendaRepository fazendaRepository;
+
+    @Autowired
+    private GraoRepository graoRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Empresa>> listar() {
@@ -56,8 +72,7 @@ public class EmpresaController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> atualizar(@RequestBody Empresa empresa, @PathVariable("id") Long id) {
         empresa.setId(id);
-
-        empresaService.atulizar(empresa);
+        empresaService.atualizar(empresa);
         return ResponseEntity.noContent().build();
     }
 
@@ -84,12 +99,59 @@ public class EmpresaController {
         return ResponseEntity.status(HttpStatus.OK).body(empresaService.qtdeFazendasEmpresa(id));
     }
 
-    @RequestMapping(value = "/{id}/adicionarFazenda", method = RequestMethod.POST)
-    public ResponseEntity<Void> adicionarFazenda(@Valid @PathVariable("id") Long empresaId,
-                                                 @RequestBody Fazenda fazenda) {
-        empresaService.adicionarFazenda(empresaId, fazenda);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+    // Um endpoint que retorna a lista de grãos de uma empresa.
+    @RequestMapping(value = "/{id}/listaGrao", method = RequestMethod.GET)
+    public ResponseEntity<List<Grao>> listarGraoEmpresa(@Valid @PathVariable("id")
+                                                                      Long empresaId) {
+        List<Grao> grao = empresaService.listarGrao(empresaId);
 
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.status(HttpStatus.OK).body(grao);
+    }
+
+
+    @RequestMapping(value = "/{id}/listaFuncionario", method = RequestMethod.GET)
+    public ResponseEntity<List<Funcionario>> listarFuncionarioEmpresa(@Valid @PathVariable("id")
+                                                                Long empresaId) {
+
+        List<Funcionario> funcionario = empresaService.listarFuncionario(empresaId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(funcionario);
+    }
+
+    @RequestMapping(value = "/{id}/qtdefuncionario", method = RequestMethod.GET)
+    public ResponseEntity<?> quantidadeFuncionario(@Valid @PathVariable("id") Long id) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(empresaService.qtdeFazendasEmpresa(id));
+    }
+
+    @RequestMapping(value = "/{id}/mostraFazenda", method = RequestMethod.GET)
+    public ResponseEntity<?> mostra(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository.findAll()
+                .stream()
+                .map(this::fazendaDto)
+                .collect(Collectors.toList()));
+    }
+
+    @RequestMapping(value = "/{id}/mostraGrao", method = RequestMethod.GET)
+    public ResponseEntity<?> mostraGrao(@PathVariable("id") Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository
+                .findFazendaByGrao_idOrderByQuantidadeEstoque(id));
+    }
+
+
+    private FazendaSummaryDto fazendaDto(Fazenda fazenda) {
+        var fazendaDto = new FazendaSummaryDto();
+        fazendaDto.setId(fazenda.getId());
+        fazendaDto.setNome(fazenda.getNome());
+        fazendaDto.setProximaColheita(fazenda.getProximaColheita());
+
+        return fazendaDto;
+    }
+    private GraoSummaryDto graoDto(Grao grao) {
+        var graoDto =  new GraoSummaryDto();
+        graoDto.setNome(grao.getNome());
+        graoDto.setQtdeEstoque(grao.getFazenda().getQuantidadeEstoque());
+
+        return graoDto;
     }
 }

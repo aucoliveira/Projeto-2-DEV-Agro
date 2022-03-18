@@ -18,16 +18,16 @@ public class GraoDto {
 
     private Empresa empresa;
 
-    private Fazenda fazenda;
+   // private Fazenda fazenda;
 
     public GraoDto(){}
 
-    public GraoDto(Long id, String nome,Integer tempoMedioDeColheita, Empresa empresa, Fazenda fazenda) {
+    public GraoDto(Long id, String nome,Integer tempoMedioDeColheita, Empresa empresa) {
         this.id= id;
         this.nome = nome;
         this.tempoMedioDeColheita = tempoMedioDeColheita;
         this.empresa = empresa;
-        this.fazenda = fazenda;
+
     }
 
     public GraoDto(Grao grao) {
@@ -35,7 +35,7 @@ public class GraoDto {
         nome = grao.getNome();
         tempoMedioDeColheita = grao.getTempoMedioDeColheita();
         empresa = grao.getEmpresa();
-        fazenda = grao.getFazenda();
+
     }
 
     public Grao converter(){
@@ -44,7 +44,7 @@ public class GraoDto {
         grao.setNome(nome);
         grao.setEmpresa(empresa);
         grao.setTempoMedioDeColheita(tempoMedioDeColheita);
-        grao.setFazenda(fazenda);
+        //grao.setFazenda(fazenda);
 
         return grao;
     }

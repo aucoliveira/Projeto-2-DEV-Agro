@@ -54,11 +54,17 @@ public class FazendaService {
         }
     }
 
-    public void atualizaEstoque(Fazenda fazenda,Double estoque) {
+    public void atualizaEstoque(Fazenda fazenda, Double valor) {
         verificaExistencia(fazenda);
+        fazenda.setValor(valor);
+        fazenda.aumentaEstoque(valor);
+        fazendaRepository.save(fazenda);
 
-        fazenda.setQuantidadeEstoque(estoque);
 
+    }
+
+    public List<Fazenda> mostra(){
+        return fazendaRepository.findByFazenda();
     }
 
     public void verificaExistencia(Fazenda fazenda) {

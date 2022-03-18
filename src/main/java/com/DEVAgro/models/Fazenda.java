@@ -7,9 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 @Setter
 @Getter
@@ -27,7 +26,7 @@ public class Fazenda {
     private String endereco;
 
     //@NotBlank(message = "A quantidade de estoque é obrigatória.")
-    private Double quantidadeEstoque = Double.valueOf(0);
+    private Double quantidadeEstoque;
 
     //@NotBlank(message = "O tipo de grão é obrigatório.")
     @OneToOne
@@ -44,26 +43,13 @@ public class Fazenda {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date ultimaColheita;
 
-    private Date proximaColheita ;
+    private LocalDate proximaColheita ;
 
-    public void setProximaColheita(Date proximaColheita) {
 
-        this.proximaColheita = proximaColheitaCalcula(grao).getTime();
+    private Double valor;
+    public Double aumentaEstoque(Double valor) {
+
+        return this.quantidadeEstoque += valor;
     }
-
-    private Double estoque;
-    public void setQuantidadeEstoque(Double estoque){
-
-        this.quantidadeEstoque += estoque;
-    }
-
-    public Calendar proximaColheitaCalcula(Grao grao){
-        Calendar proximaColheita = new GregorianCalendar();
-        proximaColheita.setTime(ultimaColheita);
-        System.out.println(grao.getTempoMedioDeColheita());
-        proximaColheita.add(Calendar.DAY_OF_MONTH,grao.getTempoMedioDeColheita());
-        return proximaColheita;
-    }
-
 
 }

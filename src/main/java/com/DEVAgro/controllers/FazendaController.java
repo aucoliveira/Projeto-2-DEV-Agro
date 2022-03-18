@@ -46,7 +46,7 @@ public class FazendaController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> atualizar(@RequestBody Fazenda fazenda, @PathVariable("id") Long id) {
+    public ResponseEntity<Void> atualizar(@Valid @RequestBody Fazenda fazenda, @PathVariable("id") Long id) {
         fazenda.setId(id);
         fazendaService.atualizar(fazenda);
         return ResponseEntity.noContent().build();
@@ -62,7 +62,7 @@ public class FazendaController {
     public ResponseEntity<Void> atualizaEstoque(@RequestBody Fazenda fazenda,
                                                 @PathVariable("id") Long id) {
         fazenda.setId(id);
-        fazendaService.atualizaEstoque(fazenda.getEstoque());
+        fazendaService.atualizaEstoque(fazenda, fazenda.getValor());
         return ResponseEntity.noContent().build();
 
     }

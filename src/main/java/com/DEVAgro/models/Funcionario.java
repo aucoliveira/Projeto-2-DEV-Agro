@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Setter
@@ -34,6 +35,7 @@ public class Funcionario {
     private String endereco;
 
     @NotBlank(message = "Campo obrigatório.")
+    @Pattern(regexp = "(\\d{2}) \\d{4}-\\d{4}")
     private String telefone;
 
     @NotBlank(message = "Campo obrigatório.")
