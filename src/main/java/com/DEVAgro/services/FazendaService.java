@@ -54,7 +54,7 @@ public class FazendaService {
         }
     }
 
-    public void atualizaEstoque(Fazenda fazenda, Double valor) {
+    public void aumentaEstoque(Fazenda fazenda, Double valor) {
         verificaExistencia(fazenda);
         fazenda.setValor(valor);
         fazenda.aumentaEstoque(valor);
@@ -63,9 +63,18 @@ public class FazendaService {
 
     }
 
-    public List<Fazenda> mostra(){
-        return fazendaRepository.findByFazenda();
+    public void diminuiEstoque(Fazenda fazenda, Double valor) {
+        verificaExistencia(fazenda);
+        fazenda.setValor(valor);
+        fazenda.diminuiEstoque(valor);
+        fazendaRepository.save(fazenda);
+
+
     }
+
+//    public List<Fazenda> mostra(){
+//        return fazendaRepository.findByFazenda();
+//    }
 
     public void verificaExistencia(Fazenda fazenda) {
         buscar(fazenda.getId());

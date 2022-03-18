@@ -2,6 +2,7 @@ package com.DEVAgro.controllers;
 
 import com.DEVAgro.models.Funcionario;
 import com.DEVAgro.services.FuncionarioService;
+import com.DEVAgro.services.dto.FuncionarioDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -29,8 +31,8 @@ public class FuncionarioController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> salvar(@Valid @RequestBody Funcionario funcionario) {
-        funcionario = funcionarioService.salvar(funcionario);
+    public ResponseEntity<Void> salvar(@Valid @RequestBody Funcionario funcionario) throws ParseException {
+         funcionario = funcionarioService.salvar(funcionario);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(funcionario.getId()).toUri();

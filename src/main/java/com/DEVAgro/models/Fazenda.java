@@ -29,8 +29,9 @@ public class Fazenda {
     private Double quantidadeEstoque;
 
     //@NotBlank(message = "O tipo de grão é obrigatório.")
-    @OneToOne
+    @OneToOne(mappedBy = "empresa")
     @JsonInclude
+    @Transient
     private Grao grao;
 
     //@NotBlank(message = "Esse campo é obrigatório.")
@@ -50,6 +51,11 @@ public class Fazenda {
     public Double aumentaEstoque(Double valor) {
 
         return this.quantidadeEstoque += valor;
+    }
+
+    public Double diminuiEstoque(Double valor) {
+
+        return this.quantidadeEstoque -= valor;
     }
 
 }

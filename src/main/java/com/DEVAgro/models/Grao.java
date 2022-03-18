@@ -32,11 +32,11 @@ public class Grao {
     @JsonInclude
     private Empresa empresa;
 
-    //@NotBlank(message = "Campo obrigatório.")
-    @OneToOne
-    @JsonIgnore
-    @JoinColumn(name = "FAZENDA_ID")
-    private Fazenda fazenda;
+//    //@NotBlank(message = "Campo obrigatório.")
+//    @OneToOne
+//    @JsonIgnore
+//    @JoinColumn(name = "FAZENDA_ID")
+//    private Fazenda fazenda;
 
 
 }

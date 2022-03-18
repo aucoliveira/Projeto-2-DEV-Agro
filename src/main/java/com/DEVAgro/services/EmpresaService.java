@@ -88,9 +88,9 @@ public class EmpresaService {
         deve ter 3 atributos: ID da fazenda, nome da fazenda e a data prevista da próxima colheita
         (considerando a data da última colheita e o tempo médio de colheita do grão associado a essa fazenda).
     */
-    public List<Fazenda> mostra(){
-        return fazendaRepository.findByFazenda();
-    }
+//    public List<Fazenda> mostra(){
+//        return fazendaRepository.findByFazenda();
+//    }
 
     // Adicionando uma fazenda
     public Fazenda adicionarFazenda(Long empresaId, Fazenda fazenda) {

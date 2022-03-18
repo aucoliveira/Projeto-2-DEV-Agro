@@ -42,17 +42,6 @@ public class FazendaDto {
         return fazenda;
     }
 
-//    public Fazenda mostra() {
-//        Fazenda fazenda = new Fazenda();
-//        fazenda.setNome(nome);
-//        fazenda.setEndereco(endereco);
-//        fazenda.setEmpresa(empresa);
-//        fazenda.setGrao(grao);
-//        fazenda.setQuantidadeEstoque(quantidadeEstoque);
-//        fazenda.setUltimaColheita(formatter.parse(ultimaColheita));
-//        fazenda.setProximaColheita(proximaColheita().getTime());
-//
-//        return fazenda;
-//    }
+
 
 }

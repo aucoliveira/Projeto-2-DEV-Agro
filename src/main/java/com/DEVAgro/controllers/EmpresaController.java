@@ -10,10 +10,7 @@ import com.DEVAgro.services.EmpresaService;
 
 import com.DEVAgro.services.FazendaService;
 import com.DEVAgro.services.GraoService;
-import com.DEVAgro.services.dto.EmpresaDto;
-import com.DEVAgro.services.dto.FazendaDto;
-import com.DEVAgro.services.dto.FazendaSummaryDto;
-import com.DEVAgro.services.dto.GraoSummaryDto;
+import com.DEVAgro.services.dto.*;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -121,7 +118,7 @@ public class EmpresaController {
     @RequestMapping(value = "/{id}/qtdefuncionario", method = RequestMethod.GET)
     public ResponseEntity<?> quantidadeFuncionario(@Valid @PathVariable("id") Long id) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(empresaService.qtdeFazendasEmpresa(id));
+        return ResponseEntity.status(HttpStatus.OK).body(empresaService.qtdeFuncionarioEmpresa(id));
     }
 
     @RequestMapping(value = "/{id}/mostraFazenda", method = RequestMethod.GET)
@@ -134,8 +131,16 @@ public class EmpresaController {
 
     @RequestMapping(value = "/{id}/mostraGrao", method = RequestMethod.GET)
     public ResponseEntity<?> mostraGrao(@PathVariable("id") Long id) {
+//        return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository
+//                .findFazendaByGrao_idOrderByQuantidadeEstoque(id));
+//        return ResponseEntity.status(HttpStatus.OK).body(graoRepository.findAll()
+//                .stream()
+//                .map(this::toGraoDto)
+//                .collect(Collectors.toList()));
+
         return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository
-                .findFazendaByGrao_idOrderByQuantidadeEstoque(id));
+               .listGrao(id));
+
     }
 
 
@@ -147,11 +152,15 @@ public class EmpresaController {
 
         return fazendaDto;
     }
-    private GraoSummaryDto graoDto(Grao grao) {
+    private GraoSummaryDto toGraoDto(Grao grao) {
         var graoDto =  new GraoSummaryDto();
         graoDto.setNome(grao.getNome());
-        graoDto.setQtdeEstoque(grao.getFazenda().getQuantidadeEstoque());
+
+        System.out.println("Aparece");
+        //graoDto.setQtdeEstoque(grao.getFazenda().getQuantidadeEstoque());
 
         return graoDto;
     }
+
+
 }

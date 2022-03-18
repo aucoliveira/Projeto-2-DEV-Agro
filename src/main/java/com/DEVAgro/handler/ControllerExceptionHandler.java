@@ -7,6 +7,7 @@ import com.DEVAgro.services.exceptions.FazendaNaoEncontradaException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -93,4 +94,15 @@ public class ControllerExceptionHandler {
 //        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 //    }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<DetalhesErro> MethodArgumentNotValidException(MethodArgumentNotValidException e,
+                                                             HttpServletRequest request) {
+        DetalhesErro erro = new DetalhesErro();
+        erro.setStatus(400l);
+        erro.setTitulo("Requisição invalida, passe o telefone no formato correto.(XX) XXXXX-XXXX");
+        erro.setMensagemDesenvolvedor("http://erros.dev-agro.com/400");
+        erro.setTimestamp(System.currentTimeMillis());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+    }
 }

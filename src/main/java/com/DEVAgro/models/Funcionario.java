@@ -1,9 +1,8 @@
 package com.DEVAgro.models;
 
-import com.DEVAgro.models.enums.Sexo;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
@@ -29,30 +28,31 @@ public class Funcionario {
 
     @NotBlank(message = "Campo obrigatório.")
     @CPF(message = "CPF inválido.")
+    @Pattern(regexp = "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}")
     private String cpf;
 
     @NotBlank(message = "Campo obrigatório.")
     private String endereco;
 
     @NotBlank(message = "Campo obrigatório.")
-    @Pattern(regexp = "(\\d{2}) \\d{4}-\\d{4}")
+   @Pattern(regexp = "\\(\\d{2}\\) \\d{5}-\\d{4}")
+    //@JsonFormat(pattern = "(\\d{2}) \\d{4}-\\d{4}")
     private String telefone;
 
     @NotBlank(message = "Campo obrigatório.")
-    private Sexo sexo;
+    private String sexo;
 
-    @NotBlank(message = "Campo obrigatório.")
+    //@NotBlank(message = "Campo obrigatório.")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataNascimento;
 
-    @NotBlank(message = "Campo obrigatório.")
+    //@NotBlank(message = "Campo obrigatório.")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataContratacao;
 
-    @NotBlank(message = "Campo obrigatório.")
-    @ManyToOne(fetch = FetchType.LAZY) // Relação de vários funcionarios para uma empresa
-    @JoinColumn(name = "EMPRESA_ID")
-    @JsonIgnore
-    private Empresa empresa;
-
+   // @NotBlank(message = "Campo obrigatório.")
+   @ManyToOne
+   @JoinColumn(name = "EMPRESA_ID")
+   @JsonInclude
+   private Empresa empresa;
 }

@@ -58,12 +58,22 @@ public class FazendaController {
         return ResponseEntity.noContent().build();
     }
     //Um endpoint para registrar colheita em uma fazenda, que aumenta o estoque de grãos daquela fazenda.
-    @RequestMapping(value = "/{id}/atualizaEstoque", method = RequestMethod.PUT)
-    public ResponseEntity<Void> atualizaEstoque(@RequestBody Fazenda fazenda,
+    @RequestMapping(value = "/{id}/aumentaEstoque", method = RequestMethod.PUT)
+    public ResponseEntity<Void> aumentaEstoque(@RequestBody Fazenda fazenda,
                                                 @PathVariable("id") Long id) {
         fazenda.setId(id);
-        fazendaService.atualizaEstoque(fazenda, fazenda.getValor());
+        fazendaService.aumentaEstoque(fazenda, fazenda.getValor());
         return ResponseEntity.noContent().build();
 
     }
+
+    @RequestMapping(value = "/{id}/diminuiEstoque", method = RequestMethod.PUT)
+    public ResponseEntity<Void> diminuiEstoque(@RequestBody Fazenda fazenda,
+                                                @PathVariable("id") Long id) {
+        fazenda.setId(id);
+        fazendaService.diminuiEstoque(fazenda, fazenda.getValor());
+        return ResponseEntity.noContent().build();
+
+    }
+
 }
