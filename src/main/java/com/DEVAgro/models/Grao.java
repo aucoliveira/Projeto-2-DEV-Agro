@@ -13,10 +13,10 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
-@Table(name = "grao")
+//@Table(name = "grao")
 public class Grao {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = " Campo obrigatório.")

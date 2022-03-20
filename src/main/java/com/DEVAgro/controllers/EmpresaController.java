@@ -162,15 +162,7 @@ public class EmpresaController {
 
         return fazendaDto;
     }
-//    private GraoSummaryDto toGraoDto(Grao grao) {
-//        var graoDto =  new GraoSummaryDto();
-//        graoDto.setNome(grao.getNome());
-//
-//        System.out.println("Aparece");
-//        //graoDto.setQtdeEstoque(grao.getFazenda().getQuantidadeEstoque());
-//
-//        return graoDto;
-//    }
+
 
     public GraoSummaryDto mostraG(Fazenda fazenda){
         GraoSummaryDto graoSummaryDto = new GraoSummaryDto();

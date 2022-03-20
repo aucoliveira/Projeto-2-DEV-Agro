@@ -14,10 +14,10 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
-@Table(name = "funcionario")
+//@Table(name = "funcionario")
 public class Funcionario {
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Campo obrigatório.")
@@ -40,7 +40,7 @@ public class Funcionario {
     private String telefone;
 
     @NotBlank(message = "Campo obrigatório.")
-    private String sexo;
+    private String sexo;  //Cheguei a criar um enum para sexo, mas estava dando problema quando eu passava
 
     //@NotBlank(message = "Campo obrigatório.")
     @JsonFormat(pattern = "dd/MM/yyyy")
