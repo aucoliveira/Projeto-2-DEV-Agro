@@ -4,6 +4,7 @@ import com.DEVAgro.models.Empresa;
 import com.DEVAgro.models.Fazenda;
 import com.DEVAgro.models.Funcionario;
 import com.DEVAgro.models.Grao;
+import com.DEVAgro.repositories.EmpresaRepository;
 import com.DEVAgro.repositories.FazendaRepository;
 import com.DEVAgro.repositories.GraoRepository;
 import com.DEVAgro.services.EmpresaService;
@@ -13,6 +14,7 @@ import com.DEVAgro.services.GraoService;
 import com.DEVAgro.services.dto.*;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,6 +52,9 @@ public class EmpresaController {
 
     @Autowired
     private GraoRepository graoRepository;
+
+    @Autowired
+    private EmpresaRepository empresaRepository;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Empresa>> listar() {
@@ -132,14 +143,16 @@ public class EmpresaController {
     @RequestMapping(value = "/{id}/mostraGrao", method = RequestMethod.GET)
     public ResponseEntity<?> mostraGrao(@PathVariable("id") Long id) {
 //        return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository
-//                .findFazendaByGrao_idOrderByQuantidadeEstoque(id));
-//        return ResponseEntity.status(HttpStatus.OK).body(graoRepository.findAll()
-//                .stream()
-//                .map(this::toGraoDto)
-//                .collect(Collectors.toList()));
+//                .findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository.findAll()
+                .stream()
+                .map(this::mostraG)
+                .sorted(Comparator.comparingDouble(GraoSummaryDto::getQtdeEstoque))
+                .filter( distinctByKey(g -> g.getNome() + " " + g.getQtdeEstoque()) )
+                .collect(Collectors.toList()));
 
-        return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository
-               .listGrao(id));
+//        return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository
+//               .listGrao(id));
 
     }
 
@@ -162,5 +175,29 @@ public class EmpresaController {
         return graoDto;
     }
 
+//    @RequestMapping(value = "/{id}/mostraGrao", method = RequestMethod.GET)
+//    public ResponseEntity<List<GraoSummaryDto>> mostraGrao(@PathVariable("id") Long id) {
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(empresaService.mostraGrao(id));
+//
+//    }
 
+
+    public GraoSummaryDto mostraG(Fazenda fazenda){
+
+        GraoSummaryDto graoSummaryDto = new GraoSummaryDto();
+
+        graoSummaryDto.setNome(fazenda.getGrao().getNome());
+        System.out.println(graoSummaryDto.getNome());
+        graoSummaryDto.setQtdeEstoque(fazendaRepository.valor(Math.toIntExact(fazenda.getGrao().getId())));
+        System.out.println(graoSummaryDto.toString());
+        return graoSummaryDto;
+
+    }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor)
+    {
+        Map<Object, Boolean> map = new ConcurrentHashMap<>();
+        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
 }

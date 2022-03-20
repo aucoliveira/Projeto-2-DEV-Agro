@@ -29,9 +29,9 @@ public class Fazenda {
     private Double quantidadeEstoque;
 
     //@NotBlank(message = "O tipo de grão é obrigatório.")
-    @OneToOne(mappedBy = "empresa")
+    @OneToOne
     @JsonInclude
-    @Transient
+    //@Transient
     private Grao grao;
 
     //@NotBlank(message = "Esse campo é obrigatório.")

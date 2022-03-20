@@ -17,12 +17,12 @@ public interface FazendaRepository extends JpaRepository<Fazenda, Long> {
 
     //List<Fazenda> findFazendaByGrao_idOrderByQuantidadeEstoque(Long id);
 
-    @Query(value = "select grao.nome, fazenda.quantidade_estoque from grao, fazenda where grao.id = ? order by quantidade_estoque",
+    @Query(value = "select grao.nome, fazenda.quantidade_estoque from grao, fazenda where grao_id = ? order by quantidade_estoque",
             nativeQuery = true)
     List<Object> listGrao(long id);
 
-//    @Query(value = "SELECT fazenda.id, fazenda.nome, fazenda.proxima_colheita, fazenda.empresa_id, grao.empresa_id, grao.id, grao.tempo_medio_de_colheita \n" +
-//            "\tFROM fazenda, grao\n" +
-//            "\tWHERE fazenda.empresa_id = grao.empresa_id;", nativeQuery = true)
-//    List<Fazenda> findByFazenda();
+
+    @Query(value = "select sum(quantidade_estoque)  \n" +
+            "from fazenda where grao_id= ?", nativeQuery = true)
+    Double valor(int v);
 }
