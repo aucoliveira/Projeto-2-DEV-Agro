@@ -13,13 +13,11 @@ import java.util.Optional;
 @Repository
 public interface FazendaRepository extends JpaRepository<Fazenda, Long> {
 
-    //List<Fazenda> findFazendaByGrao_idOrderByQuantidadeEstoque(Long id);
 
-    //List<Fazenda> findFazendaByGrao_idOrderByQuantidadeEstoque(Long id);
 
-    @Query(value = "select grao.nome, fazenda.quantidade_estoque from grao, fazenda where grao_id = ? order by quantidade_estoque",
-            nativeQuery = true)
-    List<Object> listGrao(long id);
+//    @Query(value = "select grao.nome, fazenda.quantidade_estoque from grao, fazenda where grao_id = ? order by quantidade_estoque",
+//            nativeQuery = true)
+//    List<Object> listGrao(long id);
 
 
     @Query(value = "select sum(quantidade_estoque)  \n" +

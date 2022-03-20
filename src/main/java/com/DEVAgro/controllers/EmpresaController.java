@@ -142,17 +142,13 @@ public class EmpresaController {
 
     @RequestMapping(value = "/{id}/mostraGrao", method = RequestMethod.GET)
     public ResponseEntity<?> mostraGrao(@PathVariable("id") Long id) {
-//        return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository
-//                .findAll());
+//
         return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository.findAll()
                 .stream()
                 .map(this::mostraG)
                 .sorted(Comparator.comparingDouble(GraoSummaryDto::getQtdeEstoque))
                 .filter( distinctByKey(g -> g.getNome() + " " + g.getQtdeEstoque()) )
                 .collect(Collectors.toList()));
-
-//        return ResponseEntity.status(HttpStatus.OK).body(fazendaRepository
-//               .listGrao(id));
 
     }
 
@@ -161,40 +157,29 @@ public class EmpresaController {
         var fazendaDto = new FazendaSummaryDto();
         fazendaDto.setId(fazenda.getId());
         fazendaDto.setNome(fazenda.getNome());
-        fazendaDto.setProximaColheita(fazenda.getProximaColheita());
+        fazendaDto.setProximaColheita(fazenda.getProximaColheita()
+                .plusDays(fazenda.getGrao().getTempoMedioDeColheita()));
 
         return fazendaDto;
     }
-    private GraoSummaryDto toGraoDto(Grao grao) {
-        var graoDto =  new GraoSummaryDto();
-        graoDto.setNome(grao.getNome());
-
-        System.out.println("Aparece");
-        //graoDto.setQtdeEstoque(grao.getFazenda().getQuantidadeEstoque());
-
-        return graoDto;
-    }
-
-//    @RequestMapping(value = "/{id}/mostraGrao", method = RequestMethod.GET)
-//    public ResponseEntity<List<GraoSummaryDto>> mostraGrao(@PathVariable("id") Long id) {
+//    private GraoSummaryDto toGraoDto(Grao grao) {
+//        var graoDto =  new GraoSummaryDto();
+//        graoDto.setNome(grao.getNome());
 //
-//        return ResponseEntity.status(HttpStatus.OK).body(empresaService.mostraGrao(id));
+//        System.out.println("Aparece");
+//        //graoDto.setQtdeEstoque(grao.getFazenda().getQuantidadeEstoque());
 //
+//        return graoDto;
 //    }
 
-
     public GraoSummaryDto mostraG(Fazenda fazenda){
-
         GraoSummaryDto graoSummaryDto = new GraoSummaryDto();
-
         graoSummaryDto.setNome(fazenda.getGrao().getNome());
-        System.out.println(graoSummaryDto.getNome());
         graoSummaryDto.setQtdeEstoque(fazendaRepository.valor(Math.toIntExact(fazenda.getGrao().getId())));
-        System.out.println(graoSummaryDto.toString());
+
         return graoSummaryDto;
-
     }
-
+    // Peguei em um site
     public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor)
     {
         Map<Object, Boolean> map = new ConcurrentHashMap<>();

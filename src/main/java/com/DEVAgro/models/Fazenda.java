@@ -1,11 +1,13 @@
 package com.DEVAgro.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -19,34 +21,34 @@ public class Fazenda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@NotBlank(message = "O nome da fazenda é obrigatório.")
+    @NotBlank(message = "O nome da fazenda é obrigatório.")
     private String nome;
 
-    //@NotBlank(message = "O endereço é obrigatório.")
+    @NotBlank(message = "O endereço é obrigatório.")
     private String endereco;
 
-    //@NotBlank(message = "A quantidade de estoque é obrigatória.")
+    @NotBlank(message = "A quantidade de estoque é obrigatória.")
     private Double quantidadeEstoque;
 
-    //@NotBlank(message = "O tipo de grão é obrigatório.")
+    @NotBlank(message = "O tipo de grão é obrigatório.")
     @OneToOne
     @JsonInclude
     //@Transient
     private Grao grao;
 
-    //@NotBlank(message = "Esse campo é obrigatório.")
+    @NotBlank(message = "Esse campo é obrigatório.")
     @ManyToOne
     @JoinColumn(name = "EMPRESA_ID")
     @JsonInclude
     private Empresa empresa;
 
-    //@NotBlank(message = "Esse campo é Obrigatório.")
+    @NotBlank(message = "Esse campo é Obrigatório.")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date ultimaColheita;
 
     private LocalDate proximaColheita ;
 
-
+    @JsonIgnore
     private Double valor;
     public Double aumentaEstoque(Double valor) {
 

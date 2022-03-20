@@ -87,22 +87,6 @@ public class EmpresaService {
         return empresa.getFazenda().size();
 
     }
-    /*
-        Um endpoint que retorna uma lista de fazendas de uma empresa, onde cada elemento da lista
-        deve ter 3 atributos: ID da fazenda, nome da fazenda e a data prevista da próxima colheita
-        (considerando a data da última colheita e o tempo médio de colheita do grão associado a essa fazenda).
-    */
-//    public List<Fazenda> mostra(){
-//        return fazendaRepository.findByFazenda();
-//    }
-
-    // Adicionando uma fazenda
-    public Fazenda adicionarFazenda(Long empresaId, Fazenda fazenda) {
-        Empresa empresa = buscar(empresaId);
-        fazenda.setEmpresa(empresa);
-
-        return fazendaRepository.save(fazenda);
-    }
 
     public List<Grao> listarGrao(Long empresaId) {
             Empresa empresa = buscar(empresaId);
@@ -125,28 +109,5 @@ public class EmpresaService {
 
     }
 
-
-//    public List<GraoSummaryDto> mostraGrao(Long id){
-//        Empresa empresa = empresaRepository.findById(id).orElse(null);
-//        List<Fazenda> fazenda = empresa.getFazenda();
-//        ArrayList<GraoSummaryDto> graoTotal =  new ArrayList<>();
-//        GraoSummaryDto graoSummaryDto = new GraoSummaryDto();
-//        for ( int i = 0; i < fazenda.size(); i++ ){
-//
-//            graoSummaryDto.setNome(fazenda.get(i).getGrao().getNome());
-//            System.out.println(graoSummaryDto.getNome());
-//            graoSummaryDto.setQtdeEstoque(fazendaRepository.valor(Math.toIntExact(fazenda.get(i).getGrao().getId())));
-//            System.out.println(graoSummaryDto.toString());
-//
-//            for (GraoSummaryDto g:graoTotal) {
-//                if ( graoSummaryDto != g){
-//                    graoTotal.add(graoSummaryDto);
-//                }
-//            }
-//            graoTotal.add(graoSummaryDto);
-//        }
-//        System.out.println(graoTotal.size());
-//        return graoTotal;
-//    }
 }
 
