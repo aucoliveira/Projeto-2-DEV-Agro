@@ -2,6 +2,7 @@ package com.DEVAgro.controllers;
 
 import com.DEVAgro.models.Grao;
 import com.DEVAgro.services.GraoService;
+import com.DEVAgro.services.dto.GraoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class GraoController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> salvar(@Valid @RequestBody Grao grao) {
-        grao = graoService.salvar(grao);
+    public ResponseEntity<Void> salvar(@Valid @RequestBody GraoDto graoDto) {
+        Grao grao = graoService.salvar(graoDto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(grao.getId()).toUri();

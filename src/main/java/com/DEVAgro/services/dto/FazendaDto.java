@@ -26,10 +26,10 @@ public class FazendaDto {
     private Empresa empresa;
     private String ultimaColheita;
     private LocalDate proximaColheita;
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
 
     public Fazenda converter() throws ParseException {
-        Date date = formatter.parse(ultimaColheita);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Fazenda fazenda = new Fazenda();
         fazenda.setNome(nome);
         fazenda.setEndereco(endereco);
@@ -37,7 +37,8 @@ public class FazendaDto {
         fazenda.setQuantidadeEstoque(quantidadeEstoque);
         fazenda.setGrao(grao);
         fazenda.setUltimaColheita(formatter.parse(ultimaColheita));
-        fazenda.setProximaColheita(LocalDate.now().plusDays(grao.getTempoMedioDeColheita()));
+        fazenda.setProximaColheita(LocalDate.parse(ultimaColheita, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
 
         return fazenda;
     }

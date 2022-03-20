@@ -27,29 +27,32 @@ public class Fazenda {
     @NotBlank(message = "O endereço é obrigatório.")
     private String endereco;
 
-    @NotBlank(message = "A quantidade de estoque é obrigatória.")
+    //@NotBlank(message = "A quantidade de estoque é obrigatória.")
     private Double quantidadeEstoque;
 
-    @NotBlank(message = "O tipo de grão é obrigatório.")
+   // @NotBlank(message = "O tipo de grão é obrigatório.")
     @OneToOne
     @JsonInclude
     //@Transient
     private Grao grao;
 
-    @NotBlank(message = "Esse campo é obrigatório.")
+    //@NotBlank(message = "Esse campo é obrigatório.")
     @ManyToOne
     @JoinColumn(name = "EMPRESA_ID")
     @JsonInclude
     private Empresa empresa;
 
-    @NotBlank(message = "Esse campo é Obrigatório.")
+    //@NotBlank(message = "Esse campo é Obrigatório.")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date ultimaColheita;
 
-    private LocalDate proximaColheita ;
+    @JsonIgnore
+    private LocalDate proximaColheita;
 
     @JsonIgnore
     private Double valor;
+
     public Double aumentaEstoque(Double valor) {
 
         return this.quantidadeEstoque += valor;
@@ -59,5 +62,4 @@ public class Fazenda {
 
         return this.quantidadeEstoque -= valor;
     }
-
 }

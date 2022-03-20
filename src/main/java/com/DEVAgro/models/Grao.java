@@ -23,8 +23,7 @@ public class Grao {
     private String nome;
 
     //@NotBlank(message = "Campo obrigatório.")
-    //@NotEmpty
-    private int tempoMedioDeColheita; // esse recampo tem que ser em dias
+    private Integer tempoMedioDeColheita; // esse recampo tem que ser em dias
 
 
     @ManyToOne

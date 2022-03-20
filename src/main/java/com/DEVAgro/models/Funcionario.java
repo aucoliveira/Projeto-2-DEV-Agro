@@ -50,7 +50,7 @@ public class Funcionario {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dataContratacao;
 
-   // @NotBlank(message = "Campo obrigatório.")
+   //@NotBlank(message = "Campo obrigatório.")
    @ManyToOne
    @JoinColumn(name = "EMPRESA_ID")
    @JsonInclude

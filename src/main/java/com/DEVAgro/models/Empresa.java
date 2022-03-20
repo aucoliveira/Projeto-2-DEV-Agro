@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
@@ -21,14 +22,14 @@ public  class Empresa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   // @NotBlank(message = "O nome da empresa é obrigatória.")
+   @NotBlank(message = "O nome da empresa é obrigatória.")
     private String nome;
 
-   // @NotBlank(message = "CNPJ é obrigatório")
+   @NotBlank(message = "CNPJ é obrigatório")
     @CNPJ(message = "CNPJ inválido.")
     private String cnpj;
 
-   // @NotBlank(message = "O endereço é obrigatório.")
+   @NotBlank(message = "O endereço é obrigatório.")
     private String endereco;
 
     @OneToMany(mappedBy = "empresa")

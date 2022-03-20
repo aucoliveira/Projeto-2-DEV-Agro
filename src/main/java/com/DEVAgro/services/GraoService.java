@@ -2,6 +2,7 @@ package com.DEVAgro.services;
 
 import com.DEVAgro.models.Grao;
 import com.DEVAgro.repositories.GraoRepository;
+import com.DEVAgro.services.dto.GraoDto;
 import com.DEVAgro.services.exceptions.GraoNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,9 +20,9 @@ public class GraoService {
         return graoRepository.findAll();
     }
 
-    public Grao salvar(Grao grao) {
-        grao.setId(null);
-        return graoRepository.save(grao);
+    public Grao salvar(GraoDto graoDto) {
+        //grao.setId(null);
+        return graoRepository.save(graoDto.converter());
     }
 
     public Grao buscar(Long id) {

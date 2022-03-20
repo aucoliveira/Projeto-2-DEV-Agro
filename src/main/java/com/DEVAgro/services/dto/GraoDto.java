@@ -14,7 +14,7 @@ public class GraoDto {
 
     private String nome;
 
-    private int tempoMedioDeColheita; // esse recampo tem que ser em dias
+    private Integer tempoMedioDeColheita; // esse recampo tem que ser em dias
 
     private Empresa empresa;
 
@@ -30,17 +30,9 @@ public class GraoDto {
 
     }
 
-    public GraoDto(Grao grao) {
-        id = grao.getId();
-        nome = grao.getNome();
-        tempoMedioDeColheita = grao.getTempoMedioDeColheita();
-        empresa = grao.getEmpresa();
-
-    }
-
     public Grao converter(){
         Grao grao = new Grao();
-        grao.setId(id);
+       //grao.setId(id);
         grao.setNome(nome);
         grao.setEmpresa(empresa);
         grao.setTempoMedioDeColheita(tempoMedioDeColheita);
