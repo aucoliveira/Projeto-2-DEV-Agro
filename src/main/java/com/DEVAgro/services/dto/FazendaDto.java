@@ -38,7 +38,7 @@ public class FazendaDto {
         fazenda.setGrao(grao);
         fazenda.setUltimaColheita(formatter.parse(ultimaColheita));
         fazenda.setProximaColheita(LocalDate.parse(ultimaColheita, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-
+        System.out.println(fazenda.getProximaColheita());
 
         return fazenda;
     }
