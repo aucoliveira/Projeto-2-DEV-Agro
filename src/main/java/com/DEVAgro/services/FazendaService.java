@@ -57,7 +57,7 @@ public class FazendaService {
     public void aumentaEstoque(Fazenda fazenda, Double valor) {
         verificaExistencia(fazenda);
         fazenda.setValor(valor);
-        fazenda.aumentaEstoque(valor);
+        fazenda.setQuantidadeEstoque(fazenda.aumentaEstoque(valor));
         fazendaRepository.save(fazenda);
 
 
@@ -66,7 +66,7 @@ public class FazendaService {
     public void diminuiEstoque(Fazenda fazenda, Double valor) {
         verificaExistencia(fazenda);
         fazenda.setValor(valor);
-        fazenda.diminuiEstoque(valor);
+        fazenda.setQuantidadeEstoque(fazenda.diminuiEstoque(valor));
         fazendaRepository.save(fazenda);
 
 

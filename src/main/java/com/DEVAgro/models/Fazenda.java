@@ -51,15 +51,15 @@ public class Fazenda {
     private LocalDate proximaColheita;
 
     @JsonIgnore
-    private Double valor;
+    private Double valor = Double.valueOf(0);
 
     public Double aumentaEstoque(Double valor) {
-
-        return this.quantidadeEstoque += valor;
+        this.quantidadeEstoque = quantidadeEstoque + valor;
+        return  quantidadeEstoque;
     }
 
     public Double diminuiEstoque(Double valor) {
-
-        return this.quantidadeEstoque -= valor;
+        this.quantidadeEstoque = quantidadeEstoque - valor;
+        return this.quantidadeEstoque;
     }
 }

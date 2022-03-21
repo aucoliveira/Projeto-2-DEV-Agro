@@ -45,7 +45,7 @@ public class FazendaController {
         return ResponseEntity.status(HttpStatus.OK).body(fazendaService.buscar(id));
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}/atualizar", method = RequestMethod.PUT)
     public ResponseEntity<Void> atualizar(@Valid @RequestBody Fazenda fazenda, @PathVariable("id") Long id) {
         fazenda.setId(id);
         fazendaService.atualizar(fazenda);
